@@ -37,6 +37,19 @@ abstract class DataBase {
 	public function SetDBase($_dbase){
 		$this->_DBase = $_dbase;
 	}
+
+	public function startTransaction() {
+		$this->executeSQL('START TRANSACTION');
+	}
+
+	public function commit() {
+		$this->executeSQL('COMMIT');
+	}
+
+	public function rollback() {
+		$this->executeSQL('ROLLBACK');
+	}
+
 }
 
 /*
