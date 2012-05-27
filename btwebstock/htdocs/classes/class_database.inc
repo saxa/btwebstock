@@ -17,6 +17,7 @@ abstract class DataBase {
 	protected $_numrows = -1;
 	protected $_tuple = false;
 	protected $_currentpos = -1;
+	protected $_lasterror = "";
 
 	abstract public function Connect();
 	abstract public function executeSQL($_sql);
@@ -103,6 +104,10 @@ abstract class DataBase {
 		return $this->_tuple;
 	}
 
+	public function getLastError() {
+		return "[{$this->_Type}]: {$this->_lasterror}";
+	}
+
 }
 
 /*
@@ -127,7 +132,11 @@ class pgsql extends DataBase {
 		if(is_int($this->_Port)) {
 			$_strcon.= "port={$this->_Port} ";
 		}
-		$this->_connection = @pg_connect($_strcon);
+		if(($this->_connection = @pg_connect($_strcon)) === false) {
+			$_e = error_get_last();
+			$this->_lasterror = "Error connecting to the database: ".
+				"{$_e['message']}";
+		}
 		return $this->_connection;
 	}
 
@@ -167,11 +176,13 @@ class mysql extends DataBase {
 	}
 
 	public function Connect() {
-		$this->_connection = new mysqli($this->_Server,
+		if(($this->_connection = new mysqli($this->_Server,
 						$this->_User,
 						$this->_Password,
 						$this->_DBase,
-						$this->_Port);
+						$this->_Port)) === false) {
+			$this->_lasterror = "Error connectiong to the database: ". mysqli_connect_error();
+		}
 		return $this->_connection;
 	}
 
