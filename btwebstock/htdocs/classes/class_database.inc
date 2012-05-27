@@ -15,10 +15,14 @@ abstract class DataBase {
 	protected $_connection = false;
 	protected $_dataset = false;
 	protected $_numrows = -1;
+	protected $_tuple = false;
+	protected $_currentpos = -1;
 
 	abstract public function Connect();
 	abstract public function executeSQL($_sql);
 	abstract protected function SetNumRows();
+	abstract protected function navigateIntern($_pos);
+	abstract protected function nextIntern();
 
 	public function SetServer($_server){
 		$this->_Server = $_server;
@@ -69,6 +73,36 @@ abstract class DataBase {
 		return $this->_numrows;
 	}
 
+	public function navigate($_pos = 0) {
+		$this->_tuple = false;
+		$this->navigateIntern($_pos);
+		$this->_currentpos = $_pos;
+		return $this->_tuple;
+	}
+
+	public function firstPos() {
+		return $this->navigate();
+	}
+
+	public function nextPos() {
+		$this->_tuple = false;
+		$this->nextIntern();
+		$this->_currentpos++;
+		return $this->_tuple;
+	}
+
+	public function previousPos() {
+		return $this->navigate($this->_currentpos - 1);
+	}
+
+	public function lastPos() {
+		return $this->navigate($this->_numrows - 1);
+	}
+
+	public function getCurrentData() {
+		return $this->_tuple;
+	}
+
 }
 
 /*
@@ -109,6 +143,17 @@ class pgsql extends DataBase {
 	protected function SetNumRows() {
 		$this->_numrows = ($this->_dataset !== false ? pg_num_rows($this->_dataset) : 0);
 	}
+
+	protected function navigateIntern($_pos) {
+		if(pg_result_seek($this->_dataset, $_pos) !== false) {
+			$this->_tuple = pg_fetch_assoc($this->_dataset);
+		}
+	}
+
+	protected function nextIntern() {
+		$this->_tuple = pg_fetch_assoc($this->_dataset);
+	}
+
 }
 
 /*
@@ -141,6 +186,20 @@ class mysql extends DataBase {
 
 	protected function SetNumRows() {
 		$this->_numrows = ($this->_dataset !== false ? $this->_connection->num_rows : 0);
+	}
+
+	protected function navigateIntern($_pos) {
+		if($this->_dataset !== false) {
+			if($this->_dataset->data_seek($_pos) !== false) {
+				$this->_tuple = $this->_dataset->fetch_assoc();
+			}
+		}
+	}
+
+	protected function nextIntern() {
+		if($this->_dataset !== false) {
+			$this->_tuple = $this->_dataset->fetch_assoc();
+		}
 	}
 
 }
