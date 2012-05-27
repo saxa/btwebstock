@@ -142,8 +142,13 @@ class pgsql extends DataBase {
 
 	public function executeSQL($_sql) {
 		if($this->_connection !== false) {
-			$_res = @pg_query($this->_connection, $_sql);
-			return $this->_res;
+			if(($_res = @pg_query($this->_connection, $_sql)) === false) {
+				$this->_lasterror = "Error executing SQL command {$_sql} :" . pg_last_error();
+			} else {
+				$this->isSELECT($_sql, $_res);
+			}
+			//return $this->_res;
+			return $_res;
 		} else {
 			return false;
 			}
@@ -188,8 +193,12 @@ class mysql extends DataBase {
 
 	public function executeSQL($_sql) {
 		if($this->_connection !== false) {
-			$_res = @$this->_connection->query($_sql);
-			return $this->_res;
+			if(($_res = @$this->_connection->query($_sql)) === false) {
+				$this->_lasterror = "Error executing SQL command {$_sql} : " . $this->_connection->error;
+			}
+			$this->isSELECT($_sql, $_res);
+			//return $this->_res;
+			return $_res;
 		} else {
 			return false;
 			}

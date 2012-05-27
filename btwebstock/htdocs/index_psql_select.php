@@ -23,7 +23,7 @@ $_db->SetPassword('postgres');
 $_db->SetPort(5432);
 //var_dump($_db->Connect());
 //	echo "You have fucked up something. Go and debug.";
-$_db->Connect();
+$_db->Connect() or die($_db->getLastError());
 
 $_sql = "SELECT * FROM tab_test";
 $_db->executeSQL($_sql);
