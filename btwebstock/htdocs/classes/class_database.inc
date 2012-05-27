@@ -13,10 +13,12 @@ abstract class DataBase {
 	protected $_Password;
 	protected $_DBase;
 	protected $_connection = false;
+	protected $_dataset = false;
+	protected $_numrows = -1;
 
 	abstract public function Connect();
-
 	abstract public function executeSQL($_sql);
+	abstract protected function SetNumRows();
 
 	public function SetServer($_server){
 		$this->_Server = $_server;
@@ -48,6 +50,23 @@ abstract class DataBase {
 
 	public function rollback() {
 		$this->executeSQL('ROLLBACK');
+	}
+
+	protected function isSELECT($_sql) {
+		if(substr(trim(strtolower($_sql)),0,6) == 'select') {
+			//We save the DataSet.
+			$this->_dataset = $_res;
+			//Look for number of registers we got in DataSet.
+			$this->SetNumRows();
+			return true;
+		} else {
+			$this->_numrows = -1;
+			return false;
+		}
+	}
+
+	public function getNumRows() {
+		return $this->_numrows;
 	}
 
 }
@@ -86,6 +105,10 @@ class pgsql extends DataBase {
 			return false;
 			}
 	}
+
+	protected function SetNumRows() {
+		$this->_numrows = ($this->_dataset !== false ? pg_num_rows($this->_dataset) : 0);
+	}
 }
 
 /*
@@ -115,6 +138,11 @@ class mysql extends DataBase {
 			return false;
 			}
 	}
+
+	protected function SetNumRows() {
+		$this->_numrows = ($this->_dataset !== false ? $this->_connection->num_rows : 0);
+	}
+
 }
 
 ?>
