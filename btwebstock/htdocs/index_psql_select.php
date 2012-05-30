@@ -4,7 +4,7 @@
  * Example of database use
  *
  */
-$debug = 0;
+$debug = 1;
 
 $currentdir = getcwd();
 $includesdir = $currentdir."/classes/";
@@ -30,7 +30,12 @@ $_db->executeSQL($_sql);
 
 echo "Number of registers returned by SELECT:{$_db->getNumRows()}<br>";
 echo "<table border=1 cellpadding=5 width=400>
-	<tr><th>Code</th><th>Description</th><th>Value</th></tr>";
+	<tr>
+		<th>Code</th>
+		<th>Description</th>
+		<th>Value</th>
+	</tr>";
+
 while($_d = $_db->nextPos()) {
 	echo "<tr><td>{$_d['code']}<td>
 		<td>{$_d['description']}</td>
