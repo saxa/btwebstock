@@ -5,10 +5,10 @@
  *
  */
 
-$debug = 0;
+$debug = 1;
 
 $currentdir = getcwd();
-$includesdir = $currentdir."/classes/";
+$includesdir = $currentdir."/../classes/";
 
 if ($debug){
 	echo $includesdir."<br>";
