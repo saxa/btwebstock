@@ -5,6 +5,7 @@
 	* Renamed index_mysql_transaction_test{1,2}.php into
 	test_mysql_transaction_test{1,2}.php
 	* Fixd test_mysql_transaction_test1.php
+	* Fixd test_mysql_transaction_test2.php
 
 2012-06-04 Sasa Ostrouska <casaxa@gmail.com>
 

@@ -5,10 +5,10 @@
  *
  */
 
-$debug = 0;
+$debug = 1;
 
 $currentdir = getcwd();
-$includesdir = $currentdir."/classes/";
+$includesdir = $currentdir."/../classes/";
 
 if ($debug){
 	echo $includesdir."<br>";
@@ -25,9 +25,9 @@ $_db->SetPort(3306);
 $_db->Connect();
 
 $_db->startTransaction();
-$_sql = "insert into table_test values (11, 'test 11 desc', 115.3)";
+$_sql = "insert into tab_test values (11, 'test 11 desc', 115.3)";
 $_db->executeSQL($_sql);
-$_sql = "delete from table_test";
+$_sql = "delete from tab_test";
 $_db->executeSQL($_sql);
 $_db->rollback();
 
