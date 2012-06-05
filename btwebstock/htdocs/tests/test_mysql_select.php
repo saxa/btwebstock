@@ -23,7 +23,7 @@ $_db->SetPassword('mysqlrootpa55word');
 $_db->SetPort(3306);
 $_db->Connect();
 
-$_sql = "SELECT * FROM table_test";
+$_sql = "SELECT * FROM tab_test";
 $_db->executeSQL($_sql);
 
 echo "Number of registers returned by SELECT:{$_db->getNumRows()}<br>";
