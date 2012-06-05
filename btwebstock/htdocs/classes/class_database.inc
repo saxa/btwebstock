@@ -39,8 +39,8 @@ abstract class DataBase {
 	abstract public function Connect();
 	abstract public function executeSQL($_sql);
 	abstract protected function SetNumRows();
-	abstract protected function navigateIntern($_pos);
-	abstract protected function nextIntern();
+	abstract protected function navigateInternal($_pos);
+	abstract protected function nextInternal();
 
 	public function SetServer($_server){
 		$this->_Server = $_server;
@@ -74,7 +74,7 @@ abstract class DataBase {
 		$this->executeSQL('ROLLBACK');
 	}
 
-	protected function isSELECT($_sql) {
+	protected function isSELECT($_sql, $_res) {
 		if(substr(trim(strtolower($_sql)),0,6) == 'select') {
 			//We save the DataSet.
 			$this->_dataset = $_res;
@@ -93,7 +93,7 @@ abstract class DataBase {
 
 	public function navigate($_pos = 0) {
 		$this->_tuple = false;
-		$this->navigateIntern($_pos);
+		$this->navigateInternal($_pos);
 		$this->_currentpos = $_pos;
 		return $this->_tuple;
 	}
@@ -104,7 +104,7 @@ abstract class DataBase {
 
 	public function nextPos() {
 		$this->_tuple = false;
-		$this->nextIntern();
+		$this->nextInternal();
 		$this->_currentpos++;
 		return $this->_tuple;
 	}
@@ -137,6 +137,10 @@ class pgsql extends DataBase {
 		$this->_Type = 'pgsql';
 	}
 
+	protected function SetNumRows() {
+		$this->_numrows = ($this->_dataset !== false ? pg_num_rows($this->_dataset) : 0);
+	}
+
 	public function Connect() {
 		$_strcon = "host={$this->_Server} ";
 		$_strcon.= "dbname={$this->_DBase} ";
@@ -164,24 +168,19 @@ class pgsql extends DataBase {
 			} else {
 				$this->isSELECT($_sql, $_res);
 			}
-			//return $this->_res;
 			return $_res;
 		} else {
 			return false;
 			}
 	}
 
-	protected function SetNumRows() {
-		$this->_numrows = ($this->_dataset !== false ? pg_num_rows($this->_dataset) : 0);
-	}
-
-	protected function navigateIntern($_pos) {
+	protected function navigateInternal($_pos) {
 		if(pg_result_seek($this->_dataset, $_pos) !== false) {
 			$this->_tuple = pg_fetch_assoc($this->_dataset);
 		}
 	}
 
-	protected function nextIntern() {
+	protected function nextInternal() {
 		$this->_tuple = pg_fetch_assoc($this->_dataset);
 	}
 
@@ -197,13 +196,17 @@ class mysql extends DataBase {
 		$this->_Type = 'mysql';
 	}
 
+	protected function SetNumRows() {
+		$this->_numrows = ($this->_dataset !== false ? $this->_connection->num_rows : 0);
+	}
+
 	public function Connect() {
 		if(($this->_connection = new mysqli($this->_Server,
 						$this->_User,
 						$this->_Password,
 						$this->_DBase,
 						$this->_Port)) === false) {
-			$this->_lasterror = "Error connectiong to the database: ". mysqli_connect_error();
+			$this->_lasterror = "Error connectiong to the database: " . mysqli_connect_error();
 		}
 		return $this->_connection;
 	}
@@ -214,18 +217,13 @@ class mysql extends DataBase {
 				$this->_lasterror = "Error executing SQL command {$_sql} : " . $this->_connection->error;
 			}
 			$this->isSELECT($_sql, $_res);
-			//return $this->_res;
 			return $_res;
 		} else {
 			return false;
 			}
 	}
 
-	protected function SetNumRows() {
-		$this->_numrows = ($this->_dataset !== false ? $this->_connection->num_rows : 0);
-	}
-
-	protected function navigateIntern($_pos) {
+	protected function navigateInternal($_pos) {
 		if($this->_dataset !== false) {
 			if($this->_dataset->data_seek($_pos) !== false) {
 				$this->_tuple = $this->_dataset->fetch_assoc();
@@ -233,12 +231,11 @@ class mysql extends DataBase {
 		}
 	}
 
-	protected function nextIntern() {
+	protected function nextInternal() {
 		if($this->_dataset !== false) {
 			$this->_tuple = $this->_dataset->fetch_assoc();
 		}
 	}
-
 }
 
 ?>

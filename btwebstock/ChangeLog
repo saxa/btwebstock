@@ -6,6 +6,8 @@
 	test_mysql_transaction_test{1,2}.php
 	* Fixd test_mysql_transaction_test1.php
 	* Fixd test_mysql_transaction_test2.php
+	* Renmed some function with a clearer name, an fixed some stuff in the
+	DataBase class.
 
 2012-06-04 Sasa Ostrouska <casaxa@gmail.com>
 
