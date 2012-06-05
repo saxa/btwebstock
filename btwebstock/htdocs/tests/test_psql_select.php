@@ -37,9 +37,11 @@ echo "<table border=1 cellpadding=5 width=400>
 	</tr>";
 
 while($_d = $_db->nextPos()) {
-	echo "<tr><td>{$_d['code']}<td>
-		<td>{$_d['description']}</td>
-		<td align='right'>{$_d['value']}</td></tr>";
+	echo "	<tr>
+			<td>{$_d['code']}<i/td>
+			<td>{$_d['description']}</td>
+			<td align='right'>{$_d['value']}</td>
+		</tr>";
 }
 echo "</table>";
 
