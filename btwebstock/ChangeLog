@@ -8,6 +8,7 @@
 	* Fixd test_mysql_transaction_test2.php
 	* Renmed some function with a clearer name, an fixed some stuff in the
 	DataBase class.
+	* Added the test for error in the SQL querry.
 
 2012-06-04 Sasa Ostrouska <casaxa@gmail.com>
 

@@ -24,7 +24,7 @@ $_db->SetPort(3306);
 $_db->Connect() or die($_db->getLastError());
 
 $_sql = "SELECT * FROM tab_test";
-$_db->executeSQL($_sql);
+$_db->executeSQL($_sql) or die($_db->getLastError());
 
 echo "Number of registers returned by SELECT:{$_db->getNumRows()}<br>";
 echo "<table border=1 cellpadding=5 width=400>
