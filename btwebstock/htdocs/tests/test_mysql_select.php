@@ -21,7 +21,7 @@ $_db->SetDBase('db_btwebstock_test');
 $_db->SetUser('root');
 $_db->SetPassword('mysqlrootpa55word');
 $_db->SetPort(3306);
-$_db->Connect();
+$_db->Connect() or die($_db->getLastError());
 
 $_sql = "SELECT * FROM tab_test";
 $_db->executeSQL($_sql);
