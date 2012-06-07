@@ -45,7 +45,7 @@ $_tag1->addSubTag($_body);
 $_html->addTag($_tag1);
 
 $_c = 0;
-while($_d = $_db->next()) {
+while($_d = $_db->nextPos()) {
 	$_det[$_c] = new tag($_types->getType('TR'));
 	$_det[$_c]->addSubTag(new tag($_types->getType('TD'), null, $_d['code']));
 	$_det[$_c]->addSubTag(new tag($_types->getType('TD'), null, $_d['description']));

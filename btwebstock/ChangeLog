@@ -1,3 +1,9 @@
+2012-06-07 Sasa Ostrouska <casaxa@gmail.com>
+
+	* Added class tag and class html in class_html.inc
+	* Added in tests test_psql_select_using_htmlclass.php, which creates
+	dynamically the HTML code for the showed page.
+
 2012-06-05 Sasa Ostrouska <casaxa@gmail.com>
 
 	* Added test_psql_transaction_test1.php 
