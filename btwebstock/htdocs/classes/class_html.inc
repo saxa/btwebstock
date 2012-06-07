@@ -179,7 +179,7 @@ class tag {
 			$_html .= ($_op === false ? $_spc : "");
 		}
 
-		$_html .= ($this->_type->getFinalize() === true ? "</{$this->_type->getName()}>" : "") . ($_op ==== false ? "\n" : "");
+		$_html .= ($this->_type->getFinalize() === true ? "</{$this->_type->getName()}>" : "") . ($_op === false ? "\n" : "");
 		return $_html;
 	}
 }
