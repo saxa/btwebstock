@@ -161,16 +161,25 @@ class tag {
 		$this->_subtags = Array();
 	}
 
-	public function toHTML() {
-		$_html = "<{$this->_type->getName()}";
+	public function toHTML($_op = true, $_spc = " ") {
+
+		$_html = ($_op === false ? $_spc : "") . "<{$this->_type->getName()}";
+
 		foreach($this->_attributes as $_att) {
 			$_html .= $_att->getAttribute();
 		}
+		
 		$_html .= ">{$this->_value}";
-		foreach($this->_subtags as $_subtag) {
-			$_html .= $_subtag->toHTML();
+
+		if(sizeof($this->_subtags) > 0) {
+			$_html .= ($_op === false ? "\n" : "");
+			foreach($this->_subtags as $_subtag) {
+				$_html .= $_subtag->toHTML($_op, $_spc . " ");
+			}
+			$_html .= ($_op === false ? $_spc : "");
 		}
-		$_html .= ($this->_type->getFinalize() === true ? "</{$this->_type->getName()}>" : "");
+
+		$_html .= ($this->_type->getFinalize() === true ? "</{$this->_type->getName()}>" : "") . ($_op ==== false ? "\n" : "");
 		return $_html;
 	}
 }
@@ -183,10 +192,15 @@ class tag {
 class html {
 
 	protected $_tags = Array();
+	protected $_optimized = true;
 
 	public function addTag(tag $_tag) {
 		$this->_tags[] = $_tag;
 		return sizeof($this->_tags) - 1;
+	}
+
+	public function setOptimized($_op) {
+		$this->_optimized = (bool) $_op;
 	}
 
 	public function deleteTag($_id) {
@@ -196,7 +210,7 @@ class html {
 	public function toHTML() {
 		$_html = "";
 		foreach($this->_tags as $_tag) {
-			$_html .= $_tag->toHTML();
+			$_html .= $_tag->toHTML($this->_optimized);
 		}
 		return $_html;
 	}

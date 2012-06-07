@@ -3,6 +3,10 @@
 	* Added class tag and class html in class_html.inc
 	* Added in tests test_psql_select_using_htmlclass.php, which creates
 	dynamically the HTML code for the showed page.
+	* Added in tests test_mysql_select_using_htmlclass.php, which creates
+	dynamically the HTML code for the showed page.
+	* Added html optimization code to the class_html.inc, this will output
+	a way more readable code.
 
 2012-06-05 Sasa Ostrouska <casaxa@gmail.com>
 
