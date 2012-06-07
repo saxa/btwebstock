@@ -56,6 +56,7 @@ while($_d = $_db->nextPos()) {
 
 $_body->addSubTag($_tab);
 
+$_html->setOptimized(false);
 echo $_html->toHTML();
 
 ?>
