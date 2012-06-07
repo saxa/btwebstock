@@ -109,5 +109,98 @@ class attribute {
 	}
 }
 
+/*
+ * Class which holds the HTML tags.
+ *
+ */
+class tag {
+
+	protected $_type;
+	protected $_attributes = Array();
+	protected $_value;
+	protected $_subtags = Array();
+
+	public function __construct(typetag $_type, $_attributes = Array(), $_value = null) {
+		$this->_type = $_type;
+		$this->_attributes = (is_array($_attributes) ? $_attributes : Array() );
+		$this->_value = $_value;
+		return $this;
+	}
+
+	public function setValue($_value) {
+		$this->_value = $_value;
+	}
+
+	public function append($_value) {
+		$this->_value .= $_value;
+	}
+
+	public function addAttribute(attribute $_attribute = null) {
+		$this->_attributes[] = $_attribute;
+		return sizeof($this->_attributes) - 1;
+	}
+
+	public function deleteAttribute($_attribute) {
+		unset( $this->_attributes[$_attribute] );
+	}
+
+	public function clearAttributes() {
+		$this->_attributes = Array();
+	}
+
+	public function addSubTag(tag $_subtag) {
+		$this->_subtags[] = $_subtag;
+		return sizeof($this->_subtags) - 1;
+	}
+
+	public function deleteSubTag($_id) {
+		unset($this->_subtags[$_id]);
+	}
+
+	public function clearSubTags() {
+		$this->_subtags = Array();
+	}
+
+	public function toHTML() {
+		$_html = "<{$this->_type->getName()}";
+		foreach($this->_attributes as $_att) {
+			$_html .= $_att->getAttribute();
+		}
+		$_html .= ">{$this->_value}";
+		foreach($this->_subtags as $_subtag) {
+			$_html .= $_subtag->toHTML();
+		}
+		$_html .= ($this->_type->getFinalize() === true ? "</{$this->_type->getName()}>" : "");
+		return $_html;
+	}
+}
+
+/*
+ *
+ * Class for generating HTML code.
+ *
+ */
+class html {
+
+	protected $_tags = Array();
+
+	public function addTag(tag $_tag) {
+		$this->_tags[] = $_tag;
+		return sizeof($this->_tags) - 1;
+	}
+
+	public function deleteTag($_id) {
+		unset($this->_tags[$_id]);
+	}
+
+	public function toHTML() {
+		$_html = "";
+		foreach($this->_tags as $_tag) {
+			$_html .= $_tag->toHTML();
+		}
+		return $_html;
+	}
+}
+
 
 ?>
