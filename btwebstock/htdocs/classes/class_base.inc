@@ -112,6 +112,97 @@ class string extends field {
 	}
 }
 
+/*
+ *
+ * Class for generating of numeric fields.
+ *
+ */
+class number extends field {
 
+	protected $_decimal_places = 99;
+
+	public function __construct($_name, $_title, $_type,
+					$_size, $_format, $_relation,
+					$_include=true, $_alterate=true, $_list=true,
+					$_min=null, $_max=null, $_fieldref=null, $_pk=false) {
+		parent::__construct($_name, $_title, $_type,
+					$_size, $_format, $_relation,
+					$_include, $_alterate, $_list, $_min,
+					$_max=null, $fieldref=null, $_pk);
+	}
+
+	public function toDB() {
+		return number_format(str_replace("," , ".", 
+					str_replace(".", "", $this->_value)),
+					$this->_decimal_places, ".", "");
+	}
+
+	public function toHTML() {
+		return number_format($this->_value, $this->_decimal_places, ",", "");
+	}
+
+	public function getExtraAttributes() {
+		return new attribute("ALIGN", "RIGHT");
+	}
+}
+
+/*
+ *
+ * Class derived from class number for generating integers.
+ *
+ */
+class integer extends number {
+
+	public function __construct($_name, $_title, 
+					$_size, $_format, $_relation, 
+					$_include=true, $_alterate=true, $_list=true,
+					$_min=null, $_max=null, $_fieldref=null, $_pk=false) {
+		parent::__construct($_name, $_title, 'INT',
+					$_size, $_format, $_relation,
+					$_include, $_alterate, $_list, $_min,
+					$_max=null, $fieldref=null, $_pk);
+		$this->_decimal_places = 0;
+	}
+}
+
+/*
+ *
+ * Class derived from clas number for generating floating point numbers.
+ *
+ */
+class float extends number {
+
+	public function __construct($_name, $_title, 
+					$_size, $_format, $_relation, 
+					$_include=true, $_alterate=true, $_list=true,
+					$_min=null, $_max=null, $_fieldref=null, 
+					$_pk=false, $_dplaces=3) {
+		parent::__construct($_name, $_title, 'FLT',
+					$_size, $_format, $_relation,
+					$_include, $_alterate, $_list, $_min,
+					$_max=null, $fieldref=null, $_pk);
+		$this->_decimal_places = $_dplaces;
+	}
+}
+
+/*
+ *
+ * Class derived from class number for generating values of type Money.
+ *
+ */
+class money extends number {
+
+	public function __construct($_name, $_title, 
+					$_size, $_format, $_relation, 
+					$_include=true, $_alterate=true, $_list=true,
+					$_min=null, $_max=null, $_fieldref=null, 
+					$_pk=false) {
+		parent::__construct($_name, $_title, 'CUR',
+					$_size, $_format, $_relation,
+					$_include, $_alterate, $_list, $_min,
+					$_max=null, $fieldref=null, $_pk);
+		$this->_decimal_places = 2;
+	}
+}
 
 ?>

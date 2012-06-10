@@ -3,6 +3,7 @@
 	* Started writing class_base.inc
 	* Added class field and string.
 	* Added method escapeString in database class.
+	* Added classes integer, float and money into class_base.inc
 
 2012-06-07 Sasa Ostrouska <casaxa@gmail.com>
 
