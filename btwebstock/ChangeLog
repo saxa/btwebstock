@@ -1,3 +1,7 @@
+2012-06-10 Sasa Ostrouska <casaxa@gmail.com>
+	
+	* Started writing class_base.inc
+
 2012-06-07 Sasa Ostrouska <casaxa@gmail.com>
 
 	* Added class tag and class html in class_html.inc
