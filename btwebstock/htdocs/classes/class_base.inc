@@ -86,4 +86,32 @@ abstract class field {
 	}
 }
 
+/*
+ *
+ * Class for generating fields of type string.
+ *
+ */
+class string extends field {
+
+	public function __construct($_name, $_title,
+					$_size, $_format, $_relation,
+					$_include=true, $_alterate=true, $_list=true,
+					$_min=null, $_max=null, $fieldref=null,
+					$_pk=false, database &$_connection=null) {
+		parent::__construct($_name, $_title, 'STR',
+					$_size, $_format, $_relation,
+					$_include, $_alterate, $_list, $_min, $_max=null,
+					$_fieldref, $_pk, $_connection);
+		}
+	public function toDB() {
+		return "'" . $this->_connection->escpeString($this->_value) . "'";
+	}
+
+	public function toHTML() {
+		return $this->_value;
+	}
+}
+
+
+
 ?>
