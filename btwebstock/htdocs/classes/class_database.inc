@@ -41,6 +41,7 @@ abstract class DataBase {
 	abstract protected function SetNumRows();
 	abstract protected function navigateInternal($_pos);
 	abstract protected function nextInternal();
+	abstract public function escapeString($_str);
 
 	public function SetServer($_server){
 		$this->_Server = $_server;
@@ -184,6 +185,9 @@ class pgsql extends DataBase {
 		$this->_tuple = pg_fetch_assoc($this->_dataset);
 	}
 
+	public function escapeString($_str) {
+		return pg_escape_string($this->_connection, $_str);
+	}
 }
 
 /*
@@ -235,6 +239,10 @@ class mysql extends DataBase {
 		if($this->_dataset !== false) {
 			$this->_tuple = $this->_dataset->fetch_assoc();
 		}
+	}
+
+	public function escapeString($_str) {
+		return $this->_connection->real_escape_string($_str);
 	}
 }
 

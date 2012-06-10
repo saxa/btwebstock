@@ -1,6 +1,8 @@
 2012-06-10 Sasa Ostrouska <casaxa@gmail.com>
 	
 	* Started writing class_base.inc
+	* Added class field and string.
+	* Added method escapeString in database class.
 
 2012-06-07 Sasa Ostrouska <casaxa@gmail.com>
 
