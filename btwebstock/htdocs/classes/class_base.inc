@@ -84,6 +84,21 @@ abstract class field {
 		$this->_connection	= $_connection;
 		$this->_pk		= (bool) $_pk;
 	}
+
+	public function __call($_method, $_values) {
+		$_m = strtolower($_method);
+		switch(substr($_m, 0, 3)) {
+			case 'get':	$_attribute = "_" . substr($_m, 3);
+					if(property_exists($this, $_attribute)) {
+						return $this->{$_attribute};
+					} else {
+						return false;
+					}
+					break;
+		}
+		return false;
+	}
+
 }
 
 /*
@@ -259,6 +274,30 @@ class datetime extends field {
 	public function toHTML() {
 		return $this->_connection->convertDataTimeToHTML($this->_value);
 	}
+}
+
+/*
+ *
+ * Base class
+ *
+ */
+class base {
+
+	protected $_table_name;
+	protected $_fields = Array();
+	/*
+	 * @var DataBase
+	 */
+	protected $_connection = null;
+
+	public function __construct(DataBase &$_connection = null) {
+		$this->_connection = $_connection;
+	}
+
+	public function addField(field $_field) {
+		$this->_fields[$_field->getName()] = $_field;
+	}
+
 }
 
 ?>

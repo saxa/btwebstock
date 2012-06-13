@@ -4,6 +4,8 @@
 	* Added methods convertDateToDB(), convertDateTimeToDB(),
 	convertDateToHTML() and convertDateTimeToHTML() to the DataBase class 
 	in class_database.inc.
+	* Added method __call in class field. 
+	* Started writing class base in class_base.inc
 
 2012-06-10 Sasa Ostrouska <casaxa@gmail.com>
 	
