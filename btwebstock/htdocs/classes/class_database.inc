@@ -126,6 +126,49 @@ abstract class DataBase {
 		return "[{$this->_Type}]: {$this->_lasterror}";
 	}
 
+	public function convertDateToDB($_date) {
+		// $_date Always have the format of dd-mm-YYYY
+		if(ereg("^([0-9]{1,2})-([0-9]{1,2})-([0-9]{4}).*$",
+			$_date, $_arrdt) !== false) {
+			return sprintf("%04.4d-%02.2d-%02.2d",
+				$_arrdt[3], $_arrdt[2], $_arrdt[1]);
+			}
+		return false;
+	}
+
+	public function convertDateTimeToDB($_dtime) {
+		// $_dtime Always have format dd-mm-YYYY HH:MM:SS
+		if(ereg("^([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})[[:space:]]
+			([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}).*$",
+			$_dtime, $_arrdt) !== false) {
+			return sprintf("%04.4d-%02.2d-%02.2d %02.2d:%02.2d:%02.2d",
+				$_arrdt[3], $_arrdt[2], $_arrdt[1],
+				$_arrdt[4], $_arrdt[5], $_arrdt[6]);
+		}
+		return false;
+	}
+
+	public function convertDateToHTML($_date) {
+		// $_date Always have the format of YYYY-MM-DD
+		if(ereg("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}).*$",
+			$_date, $_arrdt) !== false) {
+			return sprintf("%02.2d-%02.2d-%04.4d",
+				$_arrdt[3], $_arrdt[2], $_arrdt[1]);
+			}
+		return $_date;
+	}
+
+	public function convertDateTimeToHTML($_dtime) {
+		// $_dtime Always have format YYYY-MM-DD HH:MM:SS
+		if(ereg("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})[[:space:]]
+			([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}).*$",
+			$_dtime, $_arrdt) !== false) {
+			return sprintf("%02.2d-%02.2d-%04.4d %02.2d:%02.2d:%02.2d",
+				$_arrdt[3], $_arrdt[2], $_arrdt[1],
+				$_arrdt[4], $_arrdt[5], $_arrdt[6]);
+		}
+		return $_dtime;
+	}
 }
 
 /*

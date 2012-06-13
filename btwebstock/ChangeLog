@@ -1,6 +1,9 @@
 2012-06-12 Sasa Ostrouska <casaxa@gmail.com>
 
 	* Added class date and datetime to the class_base.inc.
+	* Added methods convertDateToDB(), convertDateTimeToDB(),
+	convertDateToHTML() and convertDateTimeToHTML() to the DataBase class 
+	in class_database.inc.
 
 2012-06-10 Sasa Ostrouska <casaxa@gmail.com>
 	
