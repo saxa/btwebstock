@@ -205,4 +205,60 @@ class money extends number {
 	}
 }
 
+/*
+ *
+ * Class for generating the fields of type date. (Without information of time.)
+ *
+ */
+class date extends field {
+
+	public function __construct($_name, $_title, 
+					$_size, $_format, $_relation,
+					$_include=true, $_alterate=true, $_list=true,
+					$_min=null, $_max=null, $_fieldref=null,
+					$_pk=false, database &$_connection=null) {
+
+		parent::__construct($_name, $_title, 'DATE',
+					$_size, $_format, $_relation,
+					$_include, $_alterate, $_list, $_min,
+					$_max=null, $_fieldref=null, $_pk, $_connection);
+	}
+
+	public function toDB() {
+		return $this->_connection->convertDataToDB($this->_value);
+	}
+	
+	public function toHTML() {
+		return $this->_connection->convertDataToHTML($this->_value);
+	}
+}
+
+/*
+ *
+ * Class for generating the fields of type date and time.
+ *
+ */
+class datetime extends field {
+
+	public function __construct($_name, $_title, 
+					$_size, $_format, $_relation,
+					$_include=true, $_alterate=true, $_list=true,
+					$_min=null, $_max=null, $_fieldref=null,
+					$_pk=false, database &$_connection=null) {
+
+		parent::__construct($_name, $_title, 'DTIME',
+					$_size, $_format, $_relation,
+					$_include, $_alterate, $_list, $_min,
+					$_max=null, $_fieldref=null, $_pk, $_connection);
+	}
+
+	public function toDB() {
+		return $this->_connection->convertDataTimeToDB($this->_value);
+	}
+	
+	public function toHTML() {
+		return $this->_connection->convertDataTimeToHTML($this->_value);
+	}
+}
+
 ?>
