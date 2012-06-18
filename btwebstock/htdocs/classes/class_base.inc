@@ -338,7 +338,7 @@ class Base {
 		$_strSQL = $this->createSELECT(implode(",", array_keys($_listoffields)));
 		$_types = new standardtypes();
 		// Header of the HTML TABLE
-		$_tab = new tag($_types-getType('TABLE'),
+		$_tab = new tag($_types->getType('TABLE'),
 				Array(new attribute("BORDER", 0),
 				new attribute("CELLPADDING", 5),
 				new attribute("STYLE", "border:1px   solid   #a0a0a0;" . "border-collapse:collapse;"),
