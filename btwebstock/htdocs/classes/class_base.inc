@@ -67,7 +67,7 @@ abstract class field {
 	public function __construct($_name, $_title, $_type,
 					$_size, $_format, $_relation,
 					$_include=true, $_alterate=true, $_list=true,
-					$_min=null, $_max=null, $fieldref=null,
+					$_min=null, $_max=null, $_fieldref=null,
 					$_pk=false, database &$_connection=null) {
 		$this->_name		= $_name;
 		$this->_title		= $_title;
@@ -336,7 +336,7 @@ class Base {
 	public function listStuff() {
 		$_listoffields = array_merge($this->filterFields(), $this->filterFields("pk"));
 		$_strSQL = $this->createSELECT(implode(",", array_keys($_listoffields)));
-		$_types = new standardTypes();
+		$_types = new standardtypes();
 		// Header of the HTML TABLE
 		$_tab = new tag($_types-getType('TABLE'),
 				Array(new attribute("BORDER", 0),

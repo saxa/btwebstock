@@ -11,6 +11,7 @@
 	* Renamed method list() to listStuff().
 	* Added in tests a test_psql_class_base.php to test the new Base
 	class.
+	* Fixed a typo in class field with a missing _ in _fieldref.
 
 2012-06-12 Sasa Ostrouska <casaxa@gmail.com>
 
