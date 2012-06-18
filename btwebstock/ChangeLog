@@ -1,3 +1,10 @@
+2012-06-17 Sasa Ostrouska <casaxa@gmail.com>
+
+	* Renamed class base into Base in class_base.inc
+	* Added methods deleteField(), clearFields() and getField() to class
+	Base.
+	* Added methods filterFields() and createSELECT() to class Base.
+
 2012-06-12 Sasa Ostrouska <casaxa@gmail.com>
 
 	* Added class date and datetime to the class_base.inc.

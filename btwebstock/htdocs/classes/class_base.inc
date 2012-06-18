@@ -281,7 +281,7 @@ class datetime extends field {
  * Base class
  *
  */
-class base {
+class Base {
 
 	protected $_table_name;
 	protected $_fields = Array();
@@ -296,6 +296,40 @@ class base {
 
 	public function addField(field $_field) {
 		$this->_fields[$_field->getName()] = $_field;
+	}
+
+	public function deleteField($_field) {
+		unset($this->_fields[$_field]);
+	}
+
+	public function clearFields() {
+		$this->_fields = Array();
+	}
+
+	public function getField($_field) {
+		return $this->_fields[$_field];
+	}
+
+	public function filterFields($_filter="list", $_value=true) {
+		$_fields = Array();
+		foreach($this->_fields as $_field) {
+			$_fcn = "get{$_filter}";
+			if($_field->$_fcn() === $_value) {
+				$_fields[$_field->getName()] = $_field;
+			}
+		}
+		return $_fields;
+	}
+	
+	public function createSELECT($_fields, $_where=null,
+					$_orderby=null,
+					$_limit=null,
+					$_extras=null) {
+		return "SELECT {$_fields} FROM {$this->_table_name} " .
+			($_where !== null ? "WHERE {$_where}" : "" ) .
+			($_orderby !== null ? " ORDER BY {$_orderby}" : "" ) .
+			($_extras !== null ? " {$_extras}" : "" ) .
+			($_limit !== null ? " LIMIT {$_limit}" : "" );
 	}
 
 }
