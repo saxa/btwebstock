@@ -112,7 +112,7 @@ class string extends field {
 	public function __construct($_name, $_title,
 					$_size, $_format, $_relation,
 					$_include=true, $_alterate=true, $_list=true,
-					$_min=null, $_max=null, $fieldref=null,
+					$_min=null, $_max=null, $_fieldref=null,
 					$_pk=false, database &$_connection=null) {
 		parent::__construct($_name, $_title, 'STR',
 					$_size, $_format, $_relation,
