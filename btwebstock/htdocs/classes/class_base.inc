@@ -254,7 +254,7 @@ class date extends field {
  * Class for generating the fields of type date and time.
  *
  */
-class datetime extends field {
+class date_time extends field {
 
 	public function __construct($_name, $_title, 
 					$_size, $_format, $_relation,
@@ -333,7 +333,7 @@ class Base {
 			($_limit !== null ? " LIMIT {$_limit}" : "" );
 	}
 
-	public function list() {
+	public function listStuff() {
 		$_listoffields = array_merge($this->filterFields(), $this->filterFields("pk"));
 		$_strSQL = $this->createSELECT(implode(",", array_keys($_listoffields)));
 		$_types = new standardTypes();

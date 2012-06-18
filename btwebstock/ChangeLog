@@ -7,6 +7,10 @@
 	* Added methods list(), fillField() and nextField() to class Base.
 	* Updated method __call to be able to filter get and set function
 	names.
+	* Renamed method datetime() to date_time() to avoid conflicts.
+	* Renamed method list() to listStuff().
+	* Added in tests a test_psql_class_base.php to test the new Base
+	class.
 
 2012-06-12 Sasa Ostrouska <casaxa@gmail.com>
 
