@@ -4,6 +4,9 @@
 	* Added methods deleteField(), clearFields() and getField() to class
 	Base.
 	* Added methods filterFields() and createSELECT() to class Base.
+	* Added methods list(), fillField() and nextField() to class Base.
+	* Updated method __call to be able to filter get and set function
+	names.
 
 2012-06-12 Sasa Ostrouska <casaxa@gmail.com>
 

@@ -88,7 +88,8 @@ abstract class field {
 	public function __call($_method, $_values) {
 		$_m = strtolower($_method);
 		switch(substr($_m, 0, 3)) {
-			case 'get':	$_attribute = "_" . substr($_m, 3);
+			case 'get':
+			case 'set':	$_attribute = "_" . substr($_m, 3);
 					if(property_exists($this, $_attribute)) {
 						return $this->{$_attribute};
 					} else {
@@ -332,6 +333,68 @@ class Base {
 			($_limit !== null ? " LIMIT {$_limit}" : "" );
 	}
 
+	public function list() {
+		$_listoffields = array_merge($this->filterFields(), $this->filterFields("pk"));
+		$_strSQL = $this->createSELECT(implode(",", array_keys($_listoffields)));
+		$_types = new standardTypes();
+		// Header of the HTML TABLE
+		$_tab = new tag($_types-getType('TABLE'),
+				Array(new attribute("BORDER", 0),
+				new attribute("CELLPADDING", 5),
+				new attribute("STYLE", "border:1px   solid   #a0a0a0;" . "border-collapse:collapse;"),
+				new attribute("WIDTH", "100%")));
+		$_tr = new tag($_types->getType('TR'));
+		foreach($_listoffields as $_field) {
+			$_tr-addSubTag(new tag($_types->getType('TH'),
+				Array(new attribute("STYLE", "border:1px" . "solid #a0a0a0;" . "background-color:#f0f0f0;")),
+				$_field->getTitle()));
+		}
+		$_tab->addSubTag($_tr);
+
+		if($this->_connection->executeSQL($_strSQL) !== false && $this->_connection->getNumRows() > 0) {
+			$_c = 0;
+			while($this->nextPos()) {
+				$_det[$_c] = new tag($_types->getType('TR'));
+				foreach($_listoffields as $_field) {
+					$_det[$_c]->addSubTag(new tag($_types->getType('TD'),
+						Array(new attribute("STYLE", "border:1px" . "solid #a0a0a0;"), 
+						$_field->getExtraAttributes()),
+						$_field->toHTML()));
+				}
+				$_tab->addSubTag($_det[$_c]);
+				++$_c;
+			}
+			$_trf = new tag($_types->getType('TR'));
+			$_trf->addSubTag(new tag($_types->getType('TD'),
+						Array(new attribute("COLSPAN", sizeof($_listoffields)),
+							new attribute("STYLE", "color:#a0a0a0;font-size:11px;" . "border:1px solid #a0a0a0;")),
+						"Total of {$this->_connection->getNumRows()} registers"));
+			$_tab->addSubTag($_trf);
+		} else {
+			$_trf = new tag($_types->getType('TR'));
+			$_trf->addSubTag(new tag($_types->getType('TD'),
+						Array(new attribute("COLSPAN", sizeof($_listoffields)),
+							new attribute("STYLE", "border:1px solid #a0a0a0;" . "text-align:center")),
+						"No registers"));
+			$_tab->addSubTag($_trf);
+		}
+		return $_tab->toHTML();
+	}
+	
+	public function fillField($_d) {
+		foreach($this->_fields as $_k => $_field) {
+			$this->_fields[$_k]->setValue($_d[$_k]);
+		}
+	}
+
+	public function nextField() {
+		if(($_d = $this->_connection->nextPos()) !== false) {
+			$this->fillField($_d);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 ?>
