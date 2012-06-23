@@ -91,7 +91,12 @@ abstract class field {
 			case 'get':
 			case 'set':	$_attribute = "_" . substr($_m, 3);
 					if(property_exists($this, $_attribute)) {
-						return $this->{$_attribute};
+						if(substr($_m, 0, 3) == 'set') {
+							$this->{$_attribute} = $_values[0];
+							return true;
+						} else {
+							return $this->{$_attribute};
+						}
 					} else {
 						return false;
 					}
@@ -353,7 +358,7 @@ class Base {
 
 		if($this->_connection->executeSQL($_strSQL) !== false && $this->_connection->getNumRows() > 0) {
 			$_c = 0;
-			while($this->nextPos()) {
+			while($this->nextField()) {
 				$_det[$_c] = new tag($_types->getType('TR'));
 				foreach($_listoffields as $_field) {
 					$_det[$_c]->addSubTag(new tag($_types->getType('TD'),

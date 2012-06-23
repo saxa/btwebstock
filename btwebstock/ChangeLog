@@ -1,6 +1,8 @@
 2012-06-22 Sasa Ostrouska <casaxa@gmail.com>
 
 	* Fixed a typo in class_base.inc 
+	* Added some missing code in __call methond to be able to handle well
+	set* methods.
 
 2012-06-17 Sasa Ostrouska <casaxa@gmail.com>
 
