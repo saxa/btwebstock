@@ -345,7 +345,7 @@ class Base {
 				new attribute("WIDTH", "100%")));
 		$_tr = new tag($_types->getType('TR'));
 		foreach($_listoffields as $_field) {
-			$_tr-addSubTag(new tag($_types->getType('TH'),
+			$_tr->addSubTag(new tag($_types->getType('TH'),
 				Array(new attribute("STYLE", "border:1px" . "solid #a0a0a0;" . "background-color:#f0f0f0;")),
 				$_field->getTitle()));
 		}
