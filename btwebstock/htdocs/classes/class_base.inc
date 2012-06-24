@@ -68,7 +68,7 @@ abstract class field {
 					$_size, $_format, $_relation,
 					$_include=true, $_alterate=true, $_list=true,
 					$_min=null, $_max=null, $_fieldref=null,
-					$_pk=false, database &$_connection=null) {
+					$_pk=false, DataBase &$_connection=null) {
 		$this->_name		= $_name;
 		$this->_title		= $_title;
 		$this->_size		= $_size;
@@ -118,7 +118,7 @@ class string extends field {
 					$_size, $_format, $_relation,
 					$_include=true, $_alterate=true, $_list=true,
 					$_min=null, $_max=null, $_fieldref=null,
-					$_pk=false, database &$_connection=null) {
+					$_pk=false, DataBase &$_connection=null) {
 		parent::__construct($_name, $_title, 'STR',
 					$_size, $_format, $_relation,
 					$_include, $_alterate, $_list, $_min, $_max=null,
@@ -237,7 +237,7 @@ class date extends field {
 					$_size, $_format, $_relation,
 					$_include=true, $_alterate=true, $_list=true,
 					$_min=null, $_max=null, $_fieldref=null,
-					$_pk=false, database &$_connection=null) {
+					$_pk=false, DataBase &$_connection=null) {
 
 		parent::__construct($_name, $_title, 'DATE',
 					$_size, $_format, $_relation,
@@ -265,7 +265,7 @@ class date_time extends field {
 					$_size, $_format, $_relation,
 					$_include=true, $_alterate=true, $_list=true,
 					$_min=null, $_max=null, $_fieldref=null,
-					$_pk=false, database &$_connection=null) {
+					$_pk=false, DataBase &$_connection=null) {
 
 		parent::__construct($_name, $_title, 'DTIME',
 					$_size, $_format, $_relation,

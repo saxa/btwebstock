@@ -1,3 +1,7 @@
+2012-06-24 Sasa Ostrouska <casaxa@gmail.com>
+
+	* Renamed all calls from database to DataBase.
+
 2012-06-22 Sasa Ostrouska <casaxa@gmail.com>
 
 	* Fixed a typo in class_base.inc 
