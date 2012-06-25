@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 $debug = 1;
 
 $currentdir = getcwd();
@@ -37,17 +36,16 @@ $_db->SetPassword('postgres');
 $_db->SetPort(5432);
 $_db->Connect() or die($_db->getLastError());
 
-class test extends Base {
-	public function __construct(DataBase $_connection) {
-		parent::__construct($_connection);
-		$this->_table_name = 'tab_test';
-		$this->addField(new integer("code", "Code", 10, null, null, true, false, true, null, null, null, true));
-		$this->addField(new string("description", "Description", 50, null, null, true, true, true, null, null, null, false, $_connection));
-		$this->addField(new money("value", "Value", 12, null, null, true, true, true, null, null, null, false));
-	}
+$_db->startTransaction();
+
+for($_i=1000; $_i<=2000; $_i++) {
+	$_sql = "insert into tab_test values({$_i}," . "'Element {$_i}'," . (mt_rand(1,10000) / 1000) .")";
+	echo $_sql;
+	var_dump($_db->executeSQL($_sql));
+	echo $_db->getLastError();
+	echo "<BR>";
 }
-$_t = new test($_db);
-//var_dump($_t->listStuff());
-echo $_t->listStuff();
+
+$_db->commit();
 
 ?>
