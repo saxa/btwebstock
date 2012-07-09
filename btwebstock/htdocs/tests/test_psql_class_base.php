@@ -28,6 +28,7 @@ if ($debug){
 include_once($includesdir."class_database.inc");
 include_once($includesdir."class_html.inc");
 include_once($includesdir."class_base.inc");
+include_once($includesdir."class_pagination.inc");
 
 $_db = new pgsql();
 $_db->SetServer('localhost');

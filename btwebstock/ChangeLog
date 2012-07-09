@@ -3,6 +3,7 @@
 	* Added class_pagination.inc into classes/
 	* Added test_pagination.php in tests dir.
 	* Added pagination functionality to class Base and class DataBase.
+	* Included class_pagination.inc in test_psql_class_base.php.
 
 2012-06-24 Sasa Ostrouska <casaxa@gmail.com>
 
