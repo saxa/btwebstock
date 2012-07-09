@@ -42,6 +42,7 @@ abstract class DataBase {
 	abstract protected function navigateInternal($_pos);
 	abstract protected function nextInternal();
 	abstract public function escapeString($_str);
+	abstract public function getLimit($_arr);
 
 	public function SetServer($_server){
 		$this->_Server = $_server;
@@ -231,6 +232,10 @@ class pgsql extends DataBase {
 	public function escapeString($_str) {
 		return pg_escape_string($this->_connection, $_str);
 	}
+
+	public function getLimit($_arr) {
+		return " {$_arr['LIMIT']} OFFSET {$_arr['OFFSET']}";
+	}
 }
 
 /*
@@ -286,6 +291,10 @@ class mysql extends DataBase {
 
 	public function escapeString($_str) {
 		return $this->_connection->real_escape_string($_str);
+	}
+
+	public function getLimit($_arr) {
+		return " {$_arr['OFFSET']},{$_arr['LIMIT']}";
 	}
 }
 

@@ -340,7 +340,20 @@ class Base {
 
 	public function listStuff() {
 		$_listoffields = array_merge($this->filterFields(), $this->filterFields("pk"));
-		$_strSQL = $this->createSELECT(implode(",", array_keys($_listoffields)));
+
+		// Find a total number of registers, but only on the first time.
+		if(!isset($_GET['page'])) {
+			$_strSQL = $this->createSELECT("COUNT(*) AS TOTAL");
+			$_total_registers = 0;
+			if($this->_connection->executeSQL($_strSQL) !== false) {
+				$_data = $this->_connection->nextPos();
+				$_total_registers = $_data['TOTAL'];
+			}
+		} else {
+			$_total_registers = $_GET['total_registers'];
+		}
+		$_limit = $this->_connection->getLimit(pagination::getLimit(isset($_GET['page']) ? $_GET['page'] : 1));
+		$_strSQL = $this->createSELECT(implode(",", array_keys($_listoffields)), null, implode(",", array_keys($this->filterFields("pk"))), $_limit);
 		$_types = new standardtypes();
 		// Header of the HTML TABLE
 		$_tab = new tag($_types->getType('TABLE'),
@@ -383,7 +396,9 @@ class Base {
 						"No registers"));
 			$_tab->addSubTag($_trf);
 		}
-		return $_tab->toHTML();
+		$_pag = new tag($_types->getType("P"), Array(new attribute("ALIGN", "CENTER")));
+		$_pag->setValue(implode(" ", pagination::paginate($_total_registers, (isset($_GET['page']) ? $_GET['page'] : 1))));
+		return $_tab->toHTML() . $_pag->toHTML();
 	}
 	
 	public function fillField($_d) {
